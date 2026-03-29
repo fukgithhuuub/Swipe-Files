@@ -40,14 +40,20 @@ jobs:
       - name: Grant Execute Permission to gradlew
         run: chmod +x Swipe-Files/gradlew
 
-      - name: Build Release APK and AAB
+      - name: Build Debug, Release APK and AAB
         env:
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: |
           cd Swipe-Files
-          ./gradlew assembleRelease bundleRelease
+          ./gradlew assembleDebug assembleRelease bundleRelease
+
+      - name: Upload Debug APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swipe-files-debug-apk
+          path: Swipe-Files/app/build/outputs/apk/debug/*.apk
 
       - name: Upload Release APK as Artifact
         uses: actions/upload-artifact@v4
@@ -69,6 +75,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
+            Swipe-Files/app/build/outputs/apk/debug/*.apk
             Swipe-Files/app/build/outputs/apk/release/*.apk
             Swipe-Files/app/build/outputs/bundle/release/*.aab
         env:
