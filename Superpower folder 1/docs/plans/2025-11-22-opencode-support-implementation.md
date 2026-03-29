@@ -194,7 +194,7 @@ Add before `module.exports`:
  * @param {string} skillName - Name like "superpowers:brainstorming" or "my-skill"
  * @param {string} superpowersDir - Path to superpowers skills directory
  * @param {string} personalDir - Path to personal skills directory
- * @returns {{skillFile: string, sourceType: string, skillPath: string} | null}
+ * @returns {% raw %}{{skillFile: string, sourceType: string, skillPath: string}}{% endraw %} | null
  */
 function resolveSkillPath(skillName, superpowersDir, personalDir) {
     // Strip superpowers: prefix if present
