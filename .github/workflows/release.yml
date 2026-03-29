@@ -23,8 +23,10 @@ jobs:
       - name: Decode Keystore
         id: decode_keystore
         run: |
-          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > release.keystore
-          echo "KEYSTORE_PATH=$(pwd)/release.keystore" >> $GITHUB_ENV
+          if [ -n "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > release.keystore
+            echo "KEYSTORE_PATH=$(pwd)/release.keystore" >> $GITHUB_ENV
+          fi
 
       - name: Set Version Variables
         run: |
